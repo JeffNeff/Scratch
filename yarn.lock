@@ -11829,9 +11829,9 @@ glogg@^1.0.0:
   dependencies:
     sparkles "^1.0.0"
 
-"gluegun@git+https://github.com/edgeandnode/gluegun.git#v4.3.1-pin-colors-dep":
+"gluegun@https://github.com/edgeandnode/gluegun#v4.3.1-pin-colors-dep":
   version "4.3.1"
-  resolved "git+https://github.com/edgeandnode/gluegun.git#b34b9003d7bf556836da41b57ef36eb21570620a"
+  resolved "https://github.com/edgeandnode/gluegun#b34b9003d7bf556836da41b57ef36eb21570620a"
   dependencies:
     apisauce "^1.0.1"
     app-module-path "^2.2.0"
@@ -22834,8 +22834,10 @@ watchpack@^1.7.4:
   resolved "https://registry.yarnpkg.com/watchpack/-/watchpack-1.7.5.tgz#1267e6c55e0b9b5be44c2023aed5437a2c26c453"
   integrity sha512-9P3MWk6SrKjHsGkLT2KHXdQ/9SNkyoJbabxnKOoJepsvJjJG8uYTR3yTPxPQvNDI3w4Nz1xnE0TLHK4RIVe/MQ==
   dependencies:
+    chokidar "^3.4.1"
     graceful-fs "^4.1.2"
     neo-async "^2.5.0"
+    watchpack-chokidar2 "^2.0.1"
   optionalDependencies:
     chokidar "^3.4.1"
     watchpack-chokidar2 "^2.0.1"

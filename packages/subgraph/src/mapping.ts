@@ -1,11 +1,11 @@
 import { BigInt, Address } from "@graphprotocol/graph-ts";
 import {
-  YourContract,
-  SetPurpose,
-} from "../generated/YourContract/YourContract";
-import { Purpose, Sender } from "../generated/schema";
+  Lottery,
+  NewPlayer,
+} from "../generated/Lottery/Lottery";
+import { Player, Sender } from "../generated/schema";
 
-export function handleSetPurpose(event: SetPurpose): void {
+export function handleNewPlayer(event: NewPlayer): void {
   let senderString = event.params.sender.toHexString();
 
   let sender = Sender.load(senderString);
@@ -14,20 +14,18 @@ export function handleSetPurpose(event: SetPurpose): void {
     sender = new Sender(senderString);
     sender.address = event.params.sender;
     sender.createdAt = event.block.timestamp;
-    sender.purposeCount = BigInt.fromI32(1);
   } else {
     sender.purposeCount = sender.purposeCount.plus(BigInt.fromI32(1));
   }
 
-  let purpose = new Purpose(
+  let player = new Player(
     event.transaction.hash.toHex() + "-" + event.logIndex.toString()
   );
 
-  purpose.purpose = event.params.purpose;
-  purpose.sender = senderString;
-  purpose.createdAt = event.block.timestamp;
-  purpose.transactionHash = event.transaction.hash.toHex();
+  player.sender = senderString;
+  player.createdAt = event.block.timestamp;
+  player.transactionHash = event.transaction.hash.toHex();
 
-  purpose.save();
+  player.save();
   sender.save();
 }
