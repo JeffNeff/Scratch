@@ -67,6 +67,7 @@
     ]
   },
   "dependencies": {
+    "bn.js": "^5.2.1",
     "web3": "^1.7.5"
   },
   "devDependencies": {

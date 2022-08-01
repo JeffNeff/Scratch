@@ -8,12 +8,20 @@ contract Lottery is Ownable{
     //new player in the contract using array[] to unlimit number
     address[] public players;
 
+    uint256 private _totalSupply;
+
     event NewPlayer(address player);
 
     function depositEth() public payable {
         require(msg.value >= 10 ether, 'You ow more money');
         players.push(payable(msg.sender));
+        _totalSupply += msg.value;
         emit NewPlayer(msg.sender);
+    }
+
+    // getTotalSupply is a public function that returns the current total staked amount
+    function getTotalSupply() public view returns (uint256) {
+        return _totalSupply;
     }
 
     //creates a random hash that will become our winner
