@@ -1,12 +1,6 @@
 type Player @entity {
   id: ID!
-  sender: Sender!
-  createdAt: BigInt!
-  transactionHash: String!
-}
-
-type Sender @entity {
-  id: ID!
   address: Bytes!
   createdAt: BigInt!
+  transactionHash: String!
 }

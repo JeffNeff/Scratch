@@ -46,7 +46,7 @@ function Subgraph(props) {
 
   const purposeColumns = [
     {
-      title: "Purpose",
+      title: "Player",
       dataIndex: "purpose",
       key: "purpose",
     },
@@ -63,7 +63,7 @@ function Subgraph(props) {
     },
   ];
 
-  const [newPurpose, setNewPurpose] = useState("loading...");
+  const [newPlayer, setNewPlayer] = useState("loading...");
 
   const deployWarning = (
     <div style={{ marginTop: 8, padding: 8 }}>Warning: 🤔 Have you deployed your subgraph yet?</div>
@@ -165,17 +165,17 @@ function Subgraph(props) {
         <div style={{ margin: 32, textAlign: "right" }}>
           <Input
             onChange={e => {
-              setNewPurpose(e.target.value);
+              setNewPlayer(e.target.value);
             }}
           />
           <Button
             onClick={() => {
-              console.log("newPurpose", newPurpose);
-              /* look how you call setPurpose on your contract: */
-              props.tx(props.writeContracts.YourContract.setPurpose(newPurpose));
+              console.log("newPlayer", newPlayer);
+              /* look how you call setPlayer on your contract: */
+              props.tx(props.writeContracts.Lottery.setPlayer(newPlayer));
             }}
           >
-            Set Purpose
+            Set Player
           </Button>
         </div>
 
