@@ -39,6 +39,8 @@ contract Lottery is Ownable{
         payable (players[index]).transfer(address(this).balance);
         //empies the old lottery and starts new one
         players = new address[](0);
+        // emty the totalSupply
+        _totalSupply = 0;
     }
 
 }

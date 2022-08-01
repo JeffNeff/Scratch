@@ -65,19 +65,19 @@ const web3Modal = Web3ModalSetup();
 
 // 🛰 providers
 const providers = [
-  "https://eth-mainnet.gateway.pokt.network/v1/lb/611156b4a585a20035148406",
-  `https://eth-mainnet.alchemyapi.io/v2/${ALCHEMY_KEY}`,
-  "https://rpc.scaffoldeth.io:48544",
+  "https://polygon-mainnet.infura.io/v3/61979797a8bb4bfe9dddd4ff9675db7e",
+  // `https://eth-mainnet.alchemyapi.io/v2/${ALCHEMY_KEY}`,
+  // "https://rpc.scaffoldeth.io:48544",
 ];
 
 function App(props) {
   // specify all the chains your app is available on. Eg: ['localhost', 'mainnet', ...otherNetworks ]
   // reference './constants.js' for other networks
-  const networkOptions = [initialNetwork.name, "mainnet", "rinkeby"];
+  const networkOptions = [initialNetwork.name, "mainnet", "polygon"];
 
   const [injectedProvider, setInjectedProvider] = useState();
   const [address, setAddress] = useState();
-  const [selectedNetwork, setSelectedNetwork] = useState(networkOptions[0]);
+  const [selectedNetwork, setSelectedNetwork] = useState(networkOptions[2]);
   const location = useLocation();
 
   const targetNetwork = NETWORKS[selectedNetwork];
