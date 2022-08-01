@@ -53,7 +53,7 @@ export default function ExampleUI({
             onClick={async () => {
               const result = tx(
                 writeContracts.Lottery.depositEth({
-                  value: Web3.utils.toWei("10", "ether"),
+                  value: Web3.utils.toWei("1", "ether"),
                   nonce: 0,
                 }),
                 update => {
