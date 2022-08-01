@@ -12,7 +12,7 @@ export default function StakedView(props) {
         cursor: "pointer",
       }}
     >
-      {props.balance}
+      {props.balance} / Matic
     </span>
   );
 }

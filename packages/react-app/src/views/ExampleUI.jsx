@@ -1,11 +1,10 @@
 import { Button, Card, DatePicker, Divider, Input, Progress, Slider, Spin, Switch } from "antd";
 import React, { useState } from "react";
 import { utils } from "ethers";
-import { SyncOutlined } from "@ant-design/icons";
-import { StakedView } from "../components/index";
+// import { SyncOutlined } from "@ant-design/icons";
+// import { StakedView } from "../components/index";
 
-import { Address, Balance, Events } from "../components";
-const BN = require("bn.js");
+import { StakedView } from "../components";
 
 var Web3 = require("web3");
 
@@ -20,31 +19,12 @@ export default function ExampleUI({
   readContracts,
   writeContracts,
 }) {
-  // const initalLoadSupply = async () => {
-  //   await readContracts.Lottery.getTotalSupply();
-  // };
-
-  const [newPlayer, setnewPlayer] = useState("loading...");
-  // var a = new BN("0x00", 16);
-
   const [totalSupply, settotalSupply] = useState([]);
 
   return (
     <div>
-      {/*
-        ⚙️ Here is an example UI that displays and sets the purpose in your smart contract:
-      */}
       <div style={{ border: "1px solid #cccccc", padding: 16, width: 400, margin: "auto", marginTop: 64 }}>
-        {/* <h2>Example UI:</h2> */}
-        {/* <h4>purpose: {purpose}</h4> */}
-        {/* <Divider /> */}
         <div style={{ margin: 8 }}>
-          {/* <Input
-            onChange={e => {
-              setnewPlayer(e.target.value);
-            }}
-          /> */}
-          {/* Create a display for the current pot total */}
           <div style={{ margin: 8 }}>
             <h3>Current Pot Total:</h3>
             <Card>
@@ -60,7 +40,6 @@ export default function ExampleUI({
                     // 📟 fetch the balance of the contract
                     console.log("totalSupply", totalSupply._hex);
                     settotalSupply(utils.formatEther(totalSupply));
-                    // settotalSupply(totalSupply);
                   }}
                 >
                   Refresh
@@ -122,6 +101,10 @@ export default function ExampleUI({
             }}
           >
             Pick Winner
+          </Button>
+          {/* Button to Link user to view the code on github */}
+          <Button style={{ marginTop: 8 }} href="https://github.com/JeffNeff/Scratch">
+            Get the Code!
           </Button>
           {/* <Events
             contracts={readContracts}
