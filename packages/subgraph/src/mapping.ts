@@ -10,13 +10,13 @@ export function handleNewPlayer(event: NewPlayer): void {
 
   let sender = Sender.load(senderString);
 
-  if (sender === null) {
+  // if (sender === null) {
     sender = new Sender(senderString);
     sender.address = event.params.sender;
     sender.createdAt = event.block.timestamp;
-  } else {
-    sender.purposeCount = sender.purposeCount.plus(BigInt.fromI32(1));
-  }
+  // } else {
+  //   sender.purposeCount = sender.purposeCount.plus(BigInt.fromI32(1));
+  // }
 
   let player = new Player(
     event.transaction.hash.toHex() + "-" + event.logIndex.toString()
