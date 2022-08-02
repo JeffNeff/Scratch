@@ -107,7 +107,8 @@ export default function ExampleUI({ address, tx, readContracts, writeContracts }
                     <div
                       style={{
                         padding: "20px",
-                        alignItems: "center",
+                        alignItems: "left",
+                        backgroundColor: "#5a9ded",
                       }}
                     >
                       <p>
@@ -122,7 +123,13 @@ export default function ExampleUI({ address, tx, readContracts, writeContracts }
                           "shady" betting experiences.
                         </span>
                       </p>
-                      <p>
+                      <div
+                        style={{
+                          padding: "20px",
+                          alignItems: "left",
+                          backgroundColor: "#5a9ded",
+                        }}
+                      >
                         <span
                           style={{
                             textShadow: "0px 0px 10px #cc71c3",
@@ -133,19 +140,27 @@ export default function ExampleUI({ address, tx, readContracts, writeContracts }
                           ✅ Designed from the ground up to{" "}
                           <b>remove any possibilities of owner manipulation & foul play</b>
                         </span>
-                      </p>
-                      <p>
-                        <span
-                          style={{
-                            textShadow: "0px 0px 10px #cc71c3",
-                            fontSize: "1.5em",
-                            fontWeight: "bold",
-                          }}
-                        >
-                          ✅ <b>Community owned and ran</b>
-                        </span>
-                      </p>
-                      <p>
+                      </div>
+
+                      <span
+                        style={{
+                          textShadow: "0px 0px 10px #cc71c3",
+                          fontSize: "1.5em",
+                          fontWeight: "bold",
+                        }}
+                      >
+                        <p>
+                          ✅ <b>Community owned and operated</b>
+                        </p>
+                      </span>
+
+                      <div
+                        style={{
+                          padding: "20px",
+                          alignItems: "left",
+                          backgroundColor: "#5a9ded",
+                        }}
+                      >
                         <span
                           style={{
                             textShadow: "0px 0px 10px #cc71c3",
@@ -169,14 +184,22 @@ export default function ExampleUI({ address, tx, readContracts, writeContracts }
                             Polyscan Blockchain
                           </a>{" "}
                           explorer.
-                          <p>
-                            ✅ %100 open source. Available @{" "}
-                            <a style={{ color: "#ffe94d" }} href="https://github.com/JeffNeff/Scratch">
-                              Github
-                            </a>
-                          </p>
+                          <div
+                            style={{
+                              padding: "20px",
+                              alignItems: "left",
+                              backgroundColor: "#5a9ded",
+                            }}
+                          >
+                            <p>
+                              ✅ %100 open source and available on{" "}
+                              <a style={{ color: "#ffe94d" }} href="https://github.com/JeffNeff/Scratch">
+                                Github
+                              </a>
+                            </p>
+                          </div>
                         </span>
-                      </p>
+                      </div>
                     </div>
                   )}
                 </div>
