@@ -170,10 +170,10 @@ export default function ExampleUI({ address, tx, readContracts, writeContracts }
                           </a>{" "}
                           explorer.
                           <p>
-                          ✅ %100 open source. Available @{" "}
-                          <a style={{ color: "#ffe94d" }} href="https://github.com/JeffNeff/Scratch">
-                            Github
-                          </a>
+                            ✅ %100 open source. Available @{" "}
+                            <a style={{ color: "#ffe94d" }} href="https://github.com/JeffNeff/Scratch">
+                              Github
+                            </a>
                           </p>
                         </span>
                       </p>
@@ -298,7 +298,7 @@ export default function ExampleUI({ address, tx, readContracts, writeContracts }
                           fontWeight: "bold",
                         }}
                       >
-                        For questions or comments, please dont hesitate to contact me at:{" "}
+                        For questions or comments, please dont hesitate to contact us at:{" "}
                         <a style={{ color: "#ffe94d" }} href="mailto:SafeTradeIO@proton.me">
                           SafeTradeIO@proton.me
                         </a>
