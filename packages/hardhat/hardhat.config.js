@@ -29,6 +29,7 @@ const { isAddress, getAddress, formatUnits, parseUnits } = utils;
 //
 const defaultNetwork = "polygon";
 // const defaultNetwork = "localhost";
+// const defaultNetwork = "mumbai";
 
 const mainnetGwei = 21;
 

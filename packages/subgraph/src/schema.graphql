@@ -4,3 +4,9 @@ type Player @entity {
   createdAt: BigInt!
   transactionHash: String!
 }
+
+type LeaderBoard @entity {
+  id: ID!
+  player: Player!
+  score: Int!
+}
