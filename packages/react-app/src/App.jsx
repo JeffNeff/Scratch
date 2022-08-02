@@ -31,6 +31,7 @@ import deployedContracts from "./contracts/hardhat_contracts.json";
 import { Transactor, Web3ModalSetup } from "./helpers";
 import { Home, ExampleUI, Hints, Subgraph } from "./views";
 import { useStaticJsonRPC } from "./hooks";
+import background from "./polygon-matic-logo.svg";
 
 const { ethers } = require("ethers");
 /*
@@ -248,7 +249,7 @@ function App(props) {
   const faucetAvailable = localProvider && localProvider.connection && targetNetwork.name.indexOf("local") !== -1;
 
   return (
-    <div className="App">
+    <div className="App" style={{ backgroundImage: `url(${background})`, backgroundRepeat: 'no-repeat', }}>
       {/* ✏️ Edit the header and change the title to your project name */}
       <Header>
         {/* 👨‍💼 Your account is in the top right with a wallet at connect options */}
