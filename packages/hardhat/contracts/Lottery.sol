@@ -18,7 +18,7 @@ contract Lottery is Ownable{
     event NewPlayer(address player);
 
     function depositEth() public payable {
-        require(msg.value >= 1 ether, 'You ow more money');
+        require(msg.value >= 10 ether, 'You ow more money');
         players.push(payable(msg.sender));
         _totalSupply += msg.value;
         emit NewPlayer(msg.sender);

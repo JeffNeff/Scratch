@@ -78,7 +78,7 @@ function App(props) {
 
   const [injectedProvider, setInjectedProvider] = useState();
   const [address, setAddress] = useState();
-  const [selectedNetwork, setSelectedNetwork] = useState(networkOptions[0]);
+  const [selectedNetwork, setSelectedNetwork] = useState(networkOptions[2]);
   const location = useLocation();
 
   const targetNetwork = NETWORKS[selectedNetwork];
@@ -108,8 +108,8 @@ function App(props) {
   };
 
   /* 💵 This hook will get the price of ETH from 🦄 Uniswap: */
-  // const price = useExchangeEthPrice(targetNetwork, mainnetProvider);
-  const price = 1700;
+  const price = useExchangeEthPrice(targetNetwork, mainnetProvider);
+  // const price = 1700;
 
   /* 🔥 This hook will get the price of Gas from ⛽️ EtherGasStation */
   const gasPrice = useGasPrice(targetNetwork, "fast");
