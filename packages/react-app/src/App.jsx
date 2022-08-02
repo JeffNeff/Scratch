@@ -132,7 +132,8 @@ function App(props) {
   // const localChainId = "0x7A69"
   const localChainId = localProvider && localProvider._network && localProvider._network.chainId;
   // const selectedChainId = "0x7A69"
-  const selectedChainId = userSigner && userSigner.provider && userSigner.provider._network && userSigner.provider._network.chainId;
+  const selectedChainId =
+    userSigner && userSigner.provider && userSigner.provider._network && userSigner.provider._network.chainId;
 
   // For more hooks, check out 🔗eth-hooks at: https://www.npmjs.com/package/eth-hooks
 
@@ -249,7 +250,7 @@ function App(props) {
   const faucetAvailable = localProvider && localProvider.connection && targetNetwork.name.indexOf("local") !== -1;
 
   return (
-    <div className="App" style={{ backgroundImage: `url(${background})`, backgroundRepeat: 'no-repeat', }}>
+    <div className="App" style={{ backgroundImage: `url(${background})`, backgroundRepeat: "no-repeat" }}>
       {/* ✏️ Edit the header and change the title to your project name */}
       <Header>
         {/* 👨‍💼 Your account is in the top right with a wallet at connect options */}
@@ -398,11 +399,11 @@ function App(props) {
         </Route>
       </Switch>
 
-      <ThemeSwitch />
+      {/* <ThemeSwitch /> */}
 
       {/* 🗺 Extra UI like gas price, eth price, faucet, and support: */}
       <div style={{ position: "fixed", textAlign: "left", left: 0, bottom: 20, padding: 10 }}>
-        <Row align="middle" gutter={[4, 4]}>
+        {/* <Row align="middle" gutter={[4, 4]}>
           <Col span={8}>
             <Ramp price={price} address={address} networks={NETWORKS} />
           </Col>
@@ -418,13 +419,13 @@ function App(props) {
               size="large"
               shape="round"
             > */}
-            {/* <span style={{ marginRight: 8 }} role="img" aria-label="support">
+        {/* <span style={{ marginRight: 8 }} role="img" aria-label="support">
                 💬
               </span> */}
-            {/* Support
+        {/* Support
             </Button> */}
-          </Col>
-        </Row>
+        {/* </Col> */}
+        {/* </Row>  */}
 
         <Row align="middle" gutter={[4, 4]}>
           <Col span={24}>
