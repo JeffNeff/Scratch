@@ -66,18 +66,19 @@ const web3Modal = Web3ModalSetup();
 // 🛰 providers
 const providers = [
   "https://polygon-mainnet.infura.io/v3/61979797a8bb4bfe9dddd4ff9675db7e",
-  // `https://eth-mainnet.alchemyapi.io/v2/${ALCHEMY_KEY}`,
-  // "https://rpc.scaffoldeth.io:48544",
+  "https://eth-mainnet.gateway.pokt.network/v1/lb/611156b4a585a20035148406",
+  `https://eth-mainnet.alchemyapi.io/v2/${ALCHEMY_KEY}`,
+  "https://rpc.scaffoldeth.io:48544",
 ];
 
 function App(props) {
   // specify all the chains your app is available on. Eg: ['localhost', 'mainnet', ...otherNetworks ]
   // reference './constants.js' for other networks
-  const networkOptions = [initialNetwork.name, "mainnet", "polygon"];
+  const networkOptions = [initialNetwork.name, "mainnet", "polygon", "mumbai"];
 
   const [injectedProvider, setInjectedProvider] = useState();
   const [address, setAddress] = useState();
-  const [selectedNetwork, setSelectedNetwork] = useState(networkOptions[2]);
+  const [selectedNetwork, setSelectedNetwork] = useState(networkOptions[0]);
   const location = useLocation();
 
   const targetNetwork = NETWORKS[selectedNetwork];
@@ -107,7 +108,8 @@ function App(props) {
   };
 
   /* 💵 This hook will get the price of ETH from 🦄 Uniswap: */
-  const price = useExchangeEthPrice(targetNetwork, mainnetProvider);
+  // const price = useExchangeEthPrice(targetNetwork, mainnetProvider);
+  const price = 1700;
 
   /* 🔥 This hook will get the price of Gas from ⛽️ EtherGasStation */
   const gasPrice = useGasPrice(targetNetwork, "fast");
@@ -126,9 +128,10 @@ function App(props) {
   }, [userSigner]);
 
   // You can warn the user if you would like them to be on a specific network
+  // const localChainId = "0x7A69"
   const localChainId = localProvider && localProvider._network && localProvider._network.chainId;
-  const selectedChainId =
-    userSigner && userSigner.provider && userSigner.provider._network && userSigner.provider._network.chainId;
+  // const selectedChainId = "0x7A69"
+  const selectedChainId = userSigner && userSigner.provider && userSigner.provider._network && userSigner.provider._network.chainId;
 
   // For more hooks, check out 🔗eth-hooks at: https://www.npmjs.com/package/eth-hooks
 

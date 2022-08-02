@@ -29,6 +29,14 @@ module.exports = async ({ getNamedAccounts, deployments, getChainId }) => {
   const Lottery = await ethers.getContract("Lottery", deployer);
 
   await Lottery.transferOwnership("0xD9B6D696B28C194fe011b0b8D3FC1ef4aD98dB36");
+
+  // await Lottery.depositEth(1000000000000000000);
+
+  // await Lottery.setTotalSupply(100);
+
+  // const x = await Lottery.getTotalSupply();
+
+  // console.log(x);
   //  await YourContract.setPurpose("Hello");
 
   // To take ownership of yourContract using the ownable library uncomment next line and add the

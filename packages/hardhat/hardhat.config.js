@@ -27,8 +27,9 @@ const { isAddress, getAddress, formatUnits, parseUnits } = utils;
 //
 // Select the network you want to deploy to here:
 //
-const defaultNetwork = "polygon";
-// const defaultNetwork = "localhost";
+// const defaultNetwork = "polygon";
+const defaultNetwork = "localhost";
+// const defaultNetwork = "mumbai";
 
 const mainnetGwei = 21;
 

@@ -3,7 +3,7 @@ import {
   Lottery,
   NewPlayer,
 } from "../generated/Lottery/Lottery";
-import { Player, Sender } from "../generated/schema";
+import { Player } from "../generated/schema";
 
 export function handleNewPlayer(event: NewPlayer): void {
   let player = new Player(

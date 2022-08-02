@@ -12,30 +12,71 @@ describe("My Dapp", function () {
     setTimeout(done, 2000);
   });
 
-  describe("YourContract", function () {
-    it("Should deploy YourContract", async function () {
-      const YourContract = await ethers.getContractFactory("YourContract");
+  describe("Lottery", function () {
+    it("Should deploy Lottery", async function () {
+      const Lottery = await ethers.getContractFactory("Lottery");
 
-      myContract = await YourContract.deploy();
+      myContract = await Lottery.deploy();
     });
 
-    describe("setPurpose()", function () {
-      it("Should be able to set a new purpose", async function () {
-        const newPurpose = "Test Purpose";
+    describe("depositEth()", function () {
+      it("Should be able to set up a new Player", async function () {
+        // const newPlayer = await myContract.newPlayer(
+        //   "0xD9B6D696B28C194fe011b0b8D3FC1ef4aD98dB36"
+        // );
 
-        await myContract.setPurpose(newPurpose);
-        expect(await myContract.purpose()).to.equal(newPurpose);
+        // await myContract.setPlayer(newPlayer);
+        // myContract.depositEth(ethers.utils.parseEther("0.1"));
+        // const a = await myContract.address[0];
+        // console.log(a);
+
+        await myContract.depositEth(1000000000000000000);
+        // await myContract.pickWinner();
+
+        // const leaderboardWinnings = await myContract.getLeaderBoard();
+        // console.log(leaderboardWinnings);
+
       });
+    describe("pickWinner()", function () {
+      it("Should be able to set up a new Player", async function () {
+        // const newPlayer = await myContract.newPlayer(
+        //   "0xD9B6D696B28C194fe011b0b8D3FC1ef4aD98dB36"
+        // );
 
-      it("Should emit a SetPurpose event ", async function () {
-        const [owner] = await ethers.getSigners();
+        // await myContract.setPlayer(newPlayer);
+        // myContract.depositEth(ethers.utils.parseEther("0.1"));
+        // const a = await myContract.address[0];
+        // console.log(a);
 
-        const newPurpose = "Another Test Purpose";
+        // await myContract.depositEth(1000000000000000000);
+        await myContract.pickWinner();
 
-        expect(await myContract.setPurpose(newPurpose))
-          .to.emit(myContract, "SetPurpose")
-          .withArgs(owner.address, newPurpose);
+        const lb = await myContract.getLeaderBoard();
+        console.log(lb);
+        expect(lb).to.be.an("array");
+        // const leaderboardWinnings = await myContract.getLeaderBoard();
+        // console.log(leaderboardWinnings);
+
       });
+      // describe("pickWinner()", function () {
+      //   it("Should be able to Pick a winner", async function () {
+
+      //     // myContract.pickWinner();
+
+      //     // const leaderboard = await myContract.getLeaderBoard();
+      //     // console.log(leaderboard);
+
+      //   });
+
+      // it("Should emit a SetPlayer event ", async function () {
+      //   const [owner] = await ethers.getSigners();
+
+      //   const newPlayer = "Another Test Player";
+
+      //   expect(await myContract.setPlayer(newPlayer))
+      //     .to.emit(myContract, "SetPlayer")
+      //     .withArgs(owner.address, newPlayer);
+      // });
     });
   });
 });
