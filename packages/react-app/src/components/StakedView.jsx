@@ -6,13 +6,32 @@ export default function StakedView(props) {
   return (
     <span
       style={{
-        verticalAlign: "middle",
         fontSize: props.size ? props.size : 24,
-        padding: 8,
         cursor: "pointer",
+        backgroundColor: "#ff9c92",
+        color: "white",
+        padding: "25px",
       }}
     >
-      {props.balance} / Matic
+      {props.balance}{" "}
+      <span
+        style={{
+          color: "black",
+        }}
+      >
+        /
+      </span>
+      <span
+        style={{
+          padding: "4px",
+          fontSize: props.size ? props.size : 24,
+          cursor: "pointer",
+          // backgroundColor: "#5a9ded",
+          color: "#cc71c3",
+        }}
+      >
+        Matic
+      </span>
     </span>
   );
 }

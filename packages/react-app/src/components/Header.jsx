@@ -12,12 +12,12 @@ export default function Header({ link, title, subTitle, ...props }) {
         <a href={link} target="_blank" rel="noopener noreferrer">
           <Title level={4} style={{ margin: "0 0.5rem 0 0" }}>
             {/* {title} */}
-            Scratch Ethereum
+            Scratch Gambling Platform
           </Title>
         </a>
         <Text type="secondary" style={{ textAlign: "left" }}>
           {/* {subTitle} */}
-          Win the Scratch Ethereum lottery
+          Bet with confidence on the Scratch Gambling Platform.
         </Text>
       </div>
       {props.children}
