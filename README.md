@@ -1,2 +1,1 @@
-# Scratch Lotto...
-// Info Coming soon.. for now... read the code i guess? xd
+
