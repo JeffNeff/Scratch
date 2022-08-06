@@ -33,6 +33,18 @@ contract Lottery is Ownable{
         emit NewPlayer(msg.sender);
     }
 
+    // addPaypalUser() is a public function that allows new raffle entries to be added to the contract.
+    function addPaypalUser(address player) public payable{
+        // required to send > 10 tokens to play.
+        require(msg.value >= 10 ether, 'You ow more money');
+        // The player is added to the players array.
+        players.push(player);
+        // the totalSupply is increased by 10 tokens.
+        _totalSupply += 10;
+        // The NewPlayer event is emited.
+        emit NewPlayer(player);
+    }
+
     // getLifetimeWinnings() is a public function that returns the ammount of lifetime winnings
     function getLifetimeWinnings() public view returns (uint256) {
         return _lifetimeWinnings;

@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { utils } from "ethers";
 import { Button, Card, CardHeader, CardText, CardTitle, Col, Row } from "reactstrap";
 import Countdown from "react-countdown";
+import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import axios from "axios";
 
 import { StakedView, Leaderboard } from "../components";
@@ -19,7 +20,8 @@ export default function ExampleUI({ address, tx, readContracts, writeContracts }
   const [showMoreInfo, setshowMoreInfo] = useState(false);
   const [showHowToPlay, setshowHowToPlay] = useState(false);
   const [showStats, setshowStats] = useState(false);
-
+  const [showPaypal, setShowPaypal] = useState(false);
+  const [userPolygonAddress, setUserPolygonAddress] = useState("0X");
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(async () => {
     const result = await readContracts.Lottery.getTotalSupply();
@@ -39,6 +41,28 @@ export default function ExampleUI({ address, tx, readContracts, writeContracts }
     });
   }
 
+  function postNewWinnerToDiscord() {
+    axios.post(discordEndpoint, {
+      content:
+        "A new Scratch Raffle winner is currently being selected by the Scratch Smart Contract...Find out this drawings winner by either viewing the leaderboard on the Scratch UI, or use the following link to view the public explorer: https://polygonscan.com/address/0xf83FA15F91B25a22Ca550d0EeADc172DAEA6023b",
+    });
+  }
+
+  function postConfirmedPaypalUserToDiscord() {
+    axios.post(discordEndpoint, {
+      content:
+        "Paypal Player with Polygon address: " +
+        userPolygonAddress +
+        " has been confirmed by the Scratch Smart Contract.",
+    });
+  }
+
+  function postNewPaypalEntryToDiscord() {
+    axios.post(discordEndpoint, {
+      content: "A new Raffle entry has been purchased via Paypal with address: " + userPolygonAddress,
+    });
+  }
+
   return (
     <div>
       <div
@@ -52,8 +76,6 @@ export default function ExampleUI({ address, tx, readContracts, writeContracts }
         }}
       >
         <div style={{ border: "2px solid #cccccc", padding: "20px", background: "#cc71c3" }}>
-          {/* Info */}
-          {/* <div style={{ display: "flex", justifyContent: "space-between" }}> */}
           <Card>
             <CardHeader style={{ justifyContent: "center", background: "#ff9c92" }}>
               <CardTitle>
@@ -75,16 +97,11 @@ export default function ExampleUI({ address, tx, readContracts, writeContracts }
                     fontWeight: "bold",
                   }}
                 >
-                  {/* create a countdown for three days */}
                   New Winner Selected Every Three Days : <Countdown date={1659743365872 + 1000 * 60 * 60 * 24 * 3} />
                 </span>
               </CardTitle>
             </CardHeader>
             <CardText style={{ padding: "20px", background: "#5a9ded" }}>
-              {/* <h4>
-                {" "}
-                <p>Welcome to Scratch!</p>{" "}
-              </h4> */}
               <h6>
                 <div
                   style={{
@@ -191,7 +208,7 @@ export default function ExampleUI({ address, tx, readContracts, writeContracts }
                         >
                           <a
                             style={{ color: "#ffe94d" }}
-                            href="https://polygonscan.com/address/0x996a8cef4f2ceba8085ce6ee4d1e52b60ebf397a?fbclid=IwAR0WkoFULa7VhfYvHcP3C3Qh2ejn3Jpg3QpRAlTIj44Kq3fcbEs5Y9tdeyw"
+                            href="https://polygonscan.com/address/0xf83FA15F91B25a22Ca550d0EeADc172DAEA6023b"
                           >
                             Polyscan Blockchain
                           </a>{" "}
@@ -464,74 +481,223 @@ export default function ExampleUI({ address, tx, readContracts, writeContracts }
 
         {/* Buy */}
         <div style={{ border: "2px solid #cccccc", padding: "40px", background: "#ff9c92" }}>
-          <Button
-            type="primary"
-            style={{
-              textShadow: "0px 0px 10px #cc71c3",
-              fontSize: "4.0em",
-              fontWeight: "bold",
-              backgroundColor: "#cc71c3",
-              WebkitBoxShadow: "0px 0px 10px black",
-            }}
-            onClick={async () => {
-              const result = tx(
-                writeContracts.Lottery.depositEth({
-                  value: Web3.utils.toWei("10", "ether"),
-                  nonce: 0,
-                }),
-                update => {
-                  console.log("📡 Transaction Update:", update);
-                  if (update && (update.status === "confirmed" || update.status === 1)) {
-                    postNewEntryToDiscord();
-                    console.log(" 🍾 Transaction " + update.hash + " finished!");
-                    console.log(
-                      " ⛽️ " +
-                        update.gasUsed +
-                        "/" +
-                        (update.gasLimit || update.gas) +
-                        " @ " +
-                        parseFloat(update.gasPrice) / 1000000000 +
-                        " gwei",
-                    );
-                  }
-                },
-              );
-              console.log("awaiting metamask/web3 confirm result...", result);
-              console.log(await result);
-            }}
-          >
-            <b>Buy an Entry</b>
-          </Button>
+          <Row>
+            <Col span={12}>
+              <Button
+                type="primary"
+                style={{
+                  textShadow: "0px 0px 10px #cc71c3",
+                  fontSize: "4.0em",
+                  fontWeight: "bold",
+                  backgroundColor: "#cc71c3",
+                  WebkitBoxShadow: "0px 0px 10px black",
+                }}
+                onClick={async () => {
+                  const result = tx(
+                    writeContracts.Lottery.depositEth({
+                      value: Web3.utils.toWei("10", "ether"),
+                      nonce: 0,
+                    }),
+                    update => {
+                      console.log("📡 Transaction Update:", update);
+                      if (update && (update.status === "confirmed" || update.status === 1)) {
+                        postNewEntryToDiscord();
+                        console.log(" 🍾 Transaction " + update.hash + " finished!");
+                        console.log(
+                          " ⛽️ " +
+                            update.gasUsed +
+                            "/" +
+                            (update.gasLimit || update.gas) +
+                            " @ " +
+                            parseFloat(update.gasPrice) / 1000000000 +
+                            " gwei",
+                        );
+                      }
+                    },
+                  );
+                  console.log("awaiting metamask/web3 confirm result...", result);
+                  console.log(await result);
+                }}
+              >
+                <b>Buy an Entry via Crypto</b>
+              </Button>
+            </Col>
+            <Col span={12}>
+              <Button
+                type="primary"
+                style={{
+                  textShadow: "0px 0px 10px #cc71c3",
+                  fontSize: "4.0em",
+                  fontWeight: "bold",
+                  backgroundColor: "#cc71c3",
+                  WebkitBoxShadow: "0px 0px 10px black",
+                }}
+                onClick={async () => {
+                  setShowPaypal(true);
+                }}
+              >
+                <b>Buy an Entry via Paypal (SLOW)</b>
+              </Button>
+
+              {showPaypal && (
+                <div style={{ border: "2px solid #cccccc", padding: "40px", background: "#ff9c92" }}>
+                  <div
+                    style={{
+                      padding: "20px",
+                      alignItems: "left",
+                      backgroundColor: "#5a9ded",
+                    }}
+                  >
+                    <span
+                      style={{
+                        textShadow: "0px 0px 10px #cc71c3",
+                        fontSize: "1.5em",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      <p>
+                        Due to security risks, please allow up to 24 hours for Paypal entries to be confirmed. The
+                        confirmation notices are all posted to the #general channel in the community{" "}
+                        <a style={{ color: "#ffe94d" }} href="https://discord.gg/pHMTaNdvve">
+                          Discord!
+                        </a>{" "}
+                      </p>
+
+                      <b>Place a valid address on the Polygon network below before submitting your transaction. </b>
+                      <p>
+                        If you need help setting up a new Wallet, you can find information{" "}
+                        <a href="https://p2enews.com/news/how-to-create-polygon-wallet-using-metamask/"> here.</a> Or
+                        feel free to contact us on{" "}
+                        <a style={{ color: "#ffe94d" }} href="https://discord.gg/pHMTaNdvve">
+                          Discord!
+                        </a>{" "}
+                        or email{" "}
+                        <a style={{ color: "#ffe94d" }} href="mailto:SafeTradeIO@proton.me">
+                          SafeTradeIO@proton.me
+                        </a>{" "}
+                        for help!
+                      </p>
+                    </span>
+                  </div>
+                  <input
+                    style={{
+                      border: "2px solid #cccccc",
+                      padding: "20px",
+                      width: "100%",
+                    }}
+                    type="text"
+                    placeholder="Polygon Wallet Address"
+                    onChange={e => setUserPolygonAddress(e.target.value)}
+                  />
+                  {userPolygonAddress.length > 40 && (
+                    <div style={{ border: "2px solid #cccccc", padding: "40px", background: "#ff9c92" }}>
+                      <PayPalScriptProvider
+                        options={{
+                          "client-id":
+                            "",
+                        }}
+                      >
+                        <PayPalButtons
+                          createOrder={(data, actions) => {
+                            return actions.order.create({
+                              purchase_units: [
+                                {
+                                  amount: {
+                                    value: "12.00",
+                                  },
+                                },
+                              ],
+                            });
+                          }}
+                          onApprove={(data, actions) => {
+                            return actions.order.capture().then(details => {
+                              postNewPaypalEntryToDiscord();
+                            });
+                          }}
+                        />
+                      </PayPalScriptProvider>
+                    </div>
+                  )}
+                </div>
+              )}
+            </Col>
+          </Row>
         </div>
 
         {/* Pickwinner */}
         {/* only render this div if the logged in account is the owner */}
         {address == "0xD9B6D696B28C194fe011b0b8D3FC1ef4aD98dB36" && (
-          <div style={{ border: "2px solid #cccccc", padding: "10px" }}>
-            <Button
-              style={{ marginTop: 8 }}
-              onClick={async () => {
-                const result = tx(writeContracts.Lottery.pickWinner(), update => {
-                  console.log("📡 Transaction Update:", update);
-                  if (update && (update.status === "confirmed" || update.status === 1)) {
-                    console.log(" 🍾 Transaction " + update.hash + " finished!");
-                    console.log(
-                      " ⛽️ " +
-                        update.gasUsed +
-                        "/" +
-                        (update.gasLimit || update.gas) +
-                        " @ " +
-                        parseFloat(update.gasPrice) / 1000000000 +
-                        " gwei",
-                    );
-                  }
-                });
-                console.log("awaiting metamask/web3 confirm result...", result);
-                console.log(await result);
-              }}
-            >
-              Pick Winner
-            </Button>
+          <div>
+            <div style={{ border: "2px solid #cccccc", padding: "10px" }}>
+              <Button
+                style={{ marginTop: 8 }}
+                onClick={async () => {
+                  const result = tx(writeContracts.Lottery.pickWinner(), update => {
+                    console.log("📡 Transaction Update:", update);
+                    if (update && (update.status === "confirmed" || update.status === 1)) {
+                      postNewWinnerToDiscord();
+                      console.log(" 🍾 Transaction " + update.hash + " finished!");
+                      console.log(
+                        " ⛽️ " +
+                          update.gasUsed +
+                          "/" +
+                          (update.gasLimit || update.gas) +
+                          " @ " +
+                          parseFloat(update.gasPrice) / 1000000000 +
+                          " gwei",
+                      );
+                    }
+                  });
+                  console.log("awaiting metamask/web3 confirm result...", result);
+                  console.log(await result);
+                }}
+              >
+                Pick Winner
+              </Button>
+            </div>
+            <div style={{ border: "2px solid #cccccc", padding: "10px" }}>
+              <input
+                style={{
+                  border: "2px solid #cccccc",
+                  padding: "20px",
+                  width: "100%",
+                }}
+                type="text"
+                placeholder="Polygon Wallet Address"
+                onChange={e => setUserPolygonAddress(e.target.value)}
+              />
+              <Button
+                style={{ marginTop: 8 }}
+                onClick={async () => {
+                  const result = tx(
+                    writeContracts.Lottery.addPaypalUser(userPolygonAddress, {
+                      value: Web3.utils.toWei("10", "ether"),
+                      nonce: 0,
+                    }),
+                    update => {
+                      console.log("📡 Transaction Update:", update);
+                      if (update && (update.status === "confirmed" || update.status === 1)) {
+                        postConfirmedPaypalUserToDiscord();
+                        console.log(" 🍾 Transaction " + update.hash + " finished!");
+                        console.log(
+                          " ⛽️ " +
+                            update.gasUsed +
+                            "/" +
+                            (update.gasLimit || update.gas) +
+                            " @ " +
+                            parseFloat(update.gasPrice) / 1000000000 +
+                            " gwei",
+                        );
+                      }
+                    },
+                  );
+                  console.log("awaiting metamask/web3 confirm result...", result);
+                  console.log(await result);
+                }}
+              >
+                Add Paypal Player
+              </Button>
+            </div>
           </div>
         )}
       </div>
