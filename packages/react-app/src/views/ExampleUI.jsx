@@ -56,8 +56,7 @@ export default function ExampleUI({
 
   function postNewEntryToDiscord() {
     axios.post(discordEndpoint, {
-      content:
-        "A new Raffle entry has been purchased by: " + address + " The new running total is " + totalSupply + " Matic.",
+      content: "A new entry has been purchased by: " + address,
     });
   }
 
@@ -296,8 +295,8 @@ export default function ExampleUI({
                             fontWeight: "bold",
                           }}
                         >
-                          ☞ Players send tokens to a Smart Contract, via the "Buy an Entry" button below, in return for
-                          entries into the lottery. <b>(10 tokens = 1 entry.)</b>
+                          ☞ Players send tokens to a Smart Contract, via one of the "Play Via.." buttons below, in
+                          return for entries into the lottery. <b>(10 tokens = 1 entry.)</b>
                         </span>
                       </p>
 
@@ -559,7 +558,7 @@ export default function ExampleUI({
                   console.log(await result);
                 }}
               >
-                <b>Buy an Entry via Crypto</b>
+                <b>Play via Crypto</b>
               </Button>
             </Col>
             <Col span={12}>
@@ -576,7 +575,7 @@ export default function ExampleUI({
                   setShowPaypal(true);
                 }}
               >
-                <b>Buy an Entry via Paypal (SLOW)</b>
+                <b>Play via Paypal (SLOW)</b>
               </Button>
 
               {showPaypal && (
