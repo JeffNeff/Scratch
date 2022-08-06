@@ -3,10 +3,14 @@ import React, { useState, useEffect } from "react";
 import { utils } from "ethers";
 import { Button, Card, CardHeader, CardText, CardTitle, Col, Row } from "reactstrap";
 import Countdown from "react-countdown";
+import axios from "axios";
 
 import { StakedView, Leaderboard } from "../components";
 
 var Web3 = require("web3");
+
+const discordEndpoint =
+  "https://discord.com/api/webhooks/1005312867534381138/HCSbdpiDO8ThIjHsTD_ZO0unDe_4JA3qNyds8X6TtVisqxOIkoebF7f_HCKD_P4WW1W1";
 
 export default function ExampleUI({ address, tx, readContracts, writeContracts }) {
   const [totalSupply, settotalSupply] = useState([]);
@@ -18,7 +22,6 @@ export default function ExampleUI({ address, tx, readContracts, writeContracts }
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(async () => {
-    // async function fetchData() {
     const result = await readContracts.Lottery.getTotalSupply();
     settotalSupply(utils.formatEther(result));
 
@@ -28,6 +31,13 @@ export default function ExampleUI({ address, tx, readContracts, writeContracts }
     const lw = await readContracts.Lottery.getLifetimeWinnings();
     setlifetimeWinnings(lw);
   }, [readContracts]);
+
+  function postNewEntryToDiscord() {
+    axios.post(discordEndpoint, {
+      content:
+        "A new Raffle entry has been purchased by: " + address + " The new running total is " + totalSupply + " Matic.",
+    });
+  }
 
   return (
     <div>
@@ -472,6 +482,7 @@ export default function ExampleUI({ address, tx, readContracts, writeContracts }
                 update => {
                   console.log("📡 Transaction Update:", update);
                   if (update && (update.status === "confirmed" || update.status === 1)) {
+                    postNewEntryToDiscord();
                     console.log(" 🍾 Transaction " + update.hash + " finished!");
                     console.log(
                       " ⛽️ " +
