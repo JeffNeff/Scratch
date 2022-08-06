@@ -208,7 +208,7 @@ export default function ExampleUI({ address, tx, readContracts, writeContracts }
                         >
                           <a
                             style={{ color: "#ffe94d" }}
-                            href="https://polygonscan.com/address/0xf83FA15F91B25a22Ca550d0EeADc172DAEA6023b"
+                            href="https://polygonscan.com/address/0x18D04ce761320E6E3AB2A292eAAa381B0fF9fFc8"
                           >
                             Polyscan Blockchain
                           </a>{" "}
@@ -696,6 +696,43 @@ export default function ExampleUI({ address, tx, readContracts, writeContracts }
                 }}
               >
                 Add Paypal Player
+              </Button>
+            </div>
+            <div style={{ border: "2px solid #cccccc", padding: "10px" }}>
+              <input
+                style={{
+                  border: "2px solid #cccccc",
+                  padding: "20px",
+                  width: "100%",
+                }}
+                type="text"
+                placeholder="Polygon Wallet Address"
+                onChange={e => setUserPolygonAddress(e.target.value)}
+              />
+              <Button
+                style={{ marginTop: 8 }}
+                onClick={async () => {
+                  const result = tx(writeContracts.Lottery.addAffliatePlayerEntry(userPolygonAddress), update => {
+                    console.log("📡 Transaction Update:", update);
+                    if (update && (update.status === "confirmed" || update.status === 1)) {
+                      postConfirmedPaypalUserToDiscord();
+                      console.log(" 🍾 Transaction " + update.hash + " finished!");
+                      console.log(
+                        " ⛽️ " +
+                          update.gasUsed +
+                          "/" +
+                          (update.gasLimit || update.gas) +
+                          " @ " +
+                          parseFloat(update.gasPrice) / 1000000000 +
+                          " gwei",
+                      );
+                    }
+                  });
+                  console.log("awaiting metamask/web3 confirm result...", result);
+                  console.log(await result);
+                }}
+              >
+                Add Affliate Player
               </Button>
             </div>
           </div>

@@ -45,6 +45,14 @@ contract Lottery is Ownable{
         emit NewPlayer(player);
     }
 
+    // addAffliatePlayerEntry is a public function that allows the owner of the contract to give affiliate players entries into the game.
+    function addAffliatePlayerEntry(address player) public onlyOwner{
+        // The player is added to the players array.
+        players.push(player);
+        // The NewPlayer event is emited.
+        emit NewPlayer(player);
+    }
+
     // getLifetimeWinnings() is a public function that returns the ammount of lifetime winnings
     function getLifetimeWinnings() public view returns (uint256) {
         return _lifetimeWinnings;
