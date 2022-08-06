@@ -25,3 +25,4 @@ export { default as MultiAddressInput } from "./MultiAddressInput";
 export { default as TokenSelect } from "./TokenSelect";
 export { default as StakedView } from "./StakedView";
 export { default as Leaderboard } from "./Leaderboard";
+export { default as Playerlist } from "./Playerlist";

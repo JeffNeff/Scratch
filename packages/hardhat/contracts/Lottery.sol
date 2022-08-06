@@ -17,6 +17,8 @@ contract Lottery is Ownable{
     uint256 private _totalSupply;
     // _lifetimeWinnings contains the total number of tokens won players.
     uint256 private _lifetimeWinnings;
+    // _playersCount contains the number of players in the contract.
+    uint private _playersCount;
 
     // NewPlayer is an event that is emited when a new player joins the contract.
     event NewPlayer(address player);
@@ -29,9 +31,17 @@ contract Lottery is Ownable{
         players.push(payable(msg.sender));
         // the totalSupply is increased by the amount of tokens sent.
         _totalSupply += msg.value;
+        // add to the number of players
+        _playersCount++;
         // The NewPlayer event is emited.
         emit NewPlayer(msg.sender);
     }
+
+    // addToToalSupply is a public function that allows users to add to the totalSupply of the winnings without entering the game.
+    function addToToalSupply(uint256 amount) public payable{
+        _totalSupply += amount;
+    }
+
 
     // addPaypalUser() is a public function that allows new raffle entries to be added to the contract.
     function addPaypalUser(address player) public payable{
@@ -39,6 +49,8 @@ contract Lottery is Ownable{
         require(msg.value >= 10 ether, 'You ow more money');
         // The player is added to the players array.
         players.push(player);
+        // add to the number of players
+        _playersCount++;
         // the totalSupply is increased by 10 tokens.
         _totalSupply += 10;
         // The NewPlayer event is emited.
@@ -49,6 +61,8 @@ contract Lottery is Ownable{
     function addAffliatePlayerEntry(address player) public onlyOwner{
         // The player is added to the players array.
         players.push(player);
+        // add to the number of players
+        _playersCount++;
         // The NewPlayer event is emited.
         emit NewPlayer(player);
     }
@@ -68,10 +82,26 @@ contract Lottery is Ownable{
         return _totalSupply;
     }
 
+    // getPlayersCount is a public function that returns the current number of players in the contract.
+    function getPlayersCount() public view returns (uint) {
+        return _playersCount;
+    }
+
+    // getPlayers is a public function that returns the current players in the contract.
+    function getPlayers() public view returns (address[] memory) {
+        address[] memory playersCopy = new address[](players.length);
+        for (uint i = 0; i < players.length; i++) {
+            playersCopy[i] = players[i];
+        }
+        return playersCopy;
+    }
+
     // random() is a private function that returns a random number between 0 and the number of players.
     function random() private view returns(uint){
         return  uint (keccak256(abi.encode(block.timestamp,  players)));
     }
+
+
 
     // addLeaderbaordWinner() is a private function that adds a player to the leaderboard.
     function addLeaderbaordWinner(address player, uint256 winnings) private {

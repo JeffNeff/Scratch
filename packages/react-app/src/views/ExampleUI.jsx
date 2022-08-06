@@ -1,4 +1,4 @@
-import { Divider } from "antd";
+import { Checkbox, Divider } from "antd";
 import React, { useState, useEffect } from "react";
 import { utils } from "ethers";
 import { Button, Card, CardHeader, CardText, CardTitle, Col, Row } from "reactstrap";
@@ -6,7 +6,7 @@ import Countdown from "react-countdown";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import axios from "axios";
 
-import { StakedView, Leaderboard } from "../components";
+import { StakedView, Leaderboard, Playerlist } from "../components";
 
 var Web3 = require("web3");
 
@@ -22,6 +22,8 @@ export default function ExampleUI({ address, tx, readContracts, writeContracts }
   const [showStats, setshowStats] = useState(false);
   const [showPaypal, setShowPaypal] = useState(false);
   const [userPolygonAddress, setUserPolygonAddress] = useState("0X");
+  const [playerList, setPlayerList] = useState([]);
+
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(async () => {
     const result = await readContracts.Lottery.getTotalSupply();
@@ -32,7 +34,10 @@ export default function ExampleUI({ address, tx, readContracts, writeContracts }
 
     const lw = await readContracts.Lottery.getLifetimeWinnings();
     setlifetimeWinnings(lw);
-  }, [readContracts]);
+
+    const pl = await readContracts.Lottery.getPlayers();
+    setPlayerList(pl);
+  }, [readContracts, writeContracts, address, utils]);
 
   function postNewEntryToDiscord() {
     axios.post(discordEndpoint, {
@@ -44,7 +49,7 @@ export default function ExampleUI({ address, tx, readContracts, writeContracts }
   function postNewWinnerToDiscord() {
     axios.post(discordEndpoint, {
       content:
-        "A new Scratch Raffle winner is currently being selected by the Scratch Smart Contract...Find out this drawings winner by either viewing the leaderboard on the Scratch UI, or use the following link to view the public explorer: https://polygonscan.com/address/0xf83FA15F91B25a22Ca550d0EeADc172DAEA6023b",
+        "A new Scratch Raffle winner is currently being selected by the Scratch Smart Contract...Find out this drawings winner by either viewing the leaderboard on the Scratch UI, or use the following link to view the public explorer: https://polygonscan.com/address/0xc4A60f89F67d040F6b2e735a9961e21a362b47fe",
     });
   }
 
@@ -208,7 +213,7 @@ export default function ExampleUI({ address, tx, readContracts, writeContracts }
                         >
                           <a
                             style={{ color: "#ffe94d" }}
-                            href="https://polygonscan.com/address/0x18D04ce761320E6E3AB2A292eAAa381B0fF9fFc8"
+                            href="https://polygonscan.com/address/0xc4A60f89F67d040F6b2e735a9961e21a362b47fe"
                           >
                             Polyscan Blockchain
                           </a>{" "}
@@ -413,6 +418,26 @@ export default function ExampleUI({ address, tx, readContracts, writeContracts }
                           </div>
                         </div>
                       </Col>
+                      <Col>
+                        {/* Player List */}
+                        <div style={{ border: "2px solid #cccccc", padding: "20px", background: "#5a9ded" }}>
+                          <div style={{ margin: 8, backgroundColor: "#ff9c92" }}>
+                            <h3>
+                              <span
+                                style={{
+                                  textShadow: "0px 0px 10px #cc71c3",
+                                  fontSize: "1.5em",
+                                  fontWeight: "bold",
+                                  color: "white",
+                                }}
+                              >
+                                Player List
+                              </span>
+                            </h3>
+                            <Playerlist playerList={playerList} />
+                          </div>
+                        </div>
+                      </Col>
                     </div>
                   )}
                 </div>
@@ -565,13 +590,21 @@ export default function ExampleUI({ address, tx, readContracts, writeContracts }
 
                       <b>Place a valid address on the Polygon network below before submitting your transaction. </b>
                       <p>
+                        <p>
+                          If you dont have a Wallet or you want to receive payment via another method, enter
+                          '0x0000000000000000000000000000000000000000' as the address. And then email us at{" "}
+                          <a style={{ color: "#ffe94d" }} href="mailto:SafeTradeIO@proton.me">
+                            SafeTradeIO@proton.me
+                          </a>{" "}
+                          to speficy your preferred method of payment.
+                        </p>
                         If you need help setting up a new Wallet, you can find information{" "}
-                        <a href="https://p2enews.com/news/how-to-create-polygon-wallet-using-metamask/"> here.</a> Or
-                        feel free to contact us on{" "}
+                        <a href="https://p2enews.com/news/how-to-create-polygon-wallet-using-metamask/"> here.</a>
+                        Feel free to contact us on{" "}
                         <a style={{ color: "#ffe94d" }} href="https://discord.gg/pHMTaNdvve">
                           Discord!
                         </a>{" "}
-                        or email{" "}
+                        Or email{" "}
                         <a style={{ color: "#ffe94d" }} href="mailto:SafeTradeIO@proton.me">
                           SafeTradeIO@proton.me
                         </a>{" "}
