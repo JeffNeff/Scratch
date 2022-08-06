@@ -6,14 +6,23 @@ import Countdown from "react-countdown";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import axios from "axios";
 
-import { StakedView, Leaderboard, Playerlist } from "../components";
+import { StakedView, Leaderboard, Playerlist, Wallet } from "../components";
 
 var Web3 = require("web3");
 
 const discordEndpoint =
   "https://discord.com/api/webhooks/1005312867534381138/HCSbdpiDO8ThIjHsTD_ZO0unDe_4JA3qNyds8X6TtVisqxOIkoebF7f_HCKD_P4WW1W1";
 
-export default function ExampleUI({ address, tx, readContracts, writeContracts }) {
+export default function ExampleUI({
+  address,
+  tx,
+  readContracts,
+  writeContracts,
+  localProvider,
+  mainnetProvider,
+  userProviderAndSigner,
+  price,
+}) {
   const [totalSupply, settotalSupply] = useState([]);
   const [leaderBoard, setleaderBoard] = useState([]);
   const [lifetimeWinnings, setlifetimeWinnings] = useState(0);
@@ -26,17 +35,23 @@ export default function ExampleUI({ address, tx, readContracts, writeContracts }
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(async () => {
-    const result = await readContracts.Lottery.getTotalSupply();
-    settotalSupply(utils.formatEther(result));
+    try {
+      const result = await readContracts.Lottery.getTotalSupply();
+      settotalSupply(utils.formatEther(result));
 
-    const result2 = await readContracts.Lottery.getLeaderBoard();
-    setleaderBoard(result2);
+      const result2 = await readContracts.Lottery.getLeaderBoard();
+      setleaderBoard(result2);
 
-    const lw = await readContracts.Lottery.getLifetimeWinnings();
-    setlifetimeWinnings(lw);
+      const lw = await readContracts.Lottery.getLifetimeWinnings();
+      setlifetimeWinnings(lw);
 
-    const pl = await readContracts.Lottery.getPlayers();
-    setPlayerList(pl);
+      const pl = await readContracts.Lottery.getPlayers();
+      setPlayerList(pl);
+    } catch (e) {
+      console.log(e);
+    }
+
+    setUserPolygonAddress(address);
   }, [readContracts, writeContracts, address, utils]);
 
   function postNewEntryToDiscord() {
@@ -591,12 +606,9 @@ export default function ExampleUI({ address, tx, readContracts, writeContracts }
                       <b>Place a valid address on the Polygon network below before submitting your transaction. </b>
                       <p>
                         <p>
-                          If you dont have a Wallet or you want to receive payment via another method, enter
-                          '0x0000000000000000000000000000000000000000' as the address. And then email us at{" "}
-                          <a style={{ color: "#ffe94d" }} href="mailto:SafeTradeIO@proton.me">
-                            SafeTradeIO@proton.me
-                          </a>{" "}
-                          to speficy your preferred method of payment.
+                          If you dont have a Wallet, you can use the one we have generated for you here:{" "}
+                          <Wallet provider={localProvider} address={address} price={price} color="#ffe94d" />
+                          <b> Dont forget to export your Private Key and save it!!!</b>
                         </p>
                         If you need help setting up a new Wallet, you can find information{" "}
                         <a href="https://p2enews.com/news/how-to-create-polygon-wallet-using-metamask/"> here.</a>
@@ -619,7 +631,7 @@ export default function ExampleUI({ address, tx, readContracts, writeContracts }
                       width: "100%",
                     }}
                     type="text"
-                    placeholder="Polygon Wallet Address"
+                    value={userPolygonAddress}
                     onChange={e => setUserPolygonAddress(e.target.value)}
                   />
                   {userPolygonAddress.length > 40 && (
@@ -643,6 +655,7 @@ export default function ExampleUI({ address, tx, readContracts, writeContracts }
                             });
                           }}
                           onApprove={(data, actions) => {
+                            alert("Dont forget to export your Private Key and save it!!!!");
                             return actions.order.capture().then(details => {
                               postNewPaypalEntryToDiscord();
                             });
@@ -696,7 +709,7 @@ export default function ExampleUI({ address, tx, readContracts, writeContracts }
                   width: "100%",
                 }}
                 type="text"
-                placeholder="Polygon Wallet Address"
+                value={userPolygonAddress}
                 onChange={e => setUserPolygonAddress(e.target.value)}
               />
               <Button
@@ -739,7 +752,7 @@ export default function ExampleUI({ address, tx, readContracts, writeContracts }
                   width: "100%",
                 }}
                 type="text"
-                placeholder="Polygon Wallet Address"
+                value={userPolygonAddress}
                 onChange={e => setUserPolygonAddress(e.target.value)}
               />
               <Button
