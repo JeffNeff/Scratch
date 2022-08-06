@@ -58,7 +58,10 @@ export default function Leaderboard(props) {
               <h3>
                 <span
                   style={{
-                    color: "#cc71c3",
+                    textShadow: "0px 0px 10px #cc71c3",
+                    fontSize: "1.5em",
+                    fontWeight: "bold",
+                    color: "white",
                   }}
                 >
                   # {i + 1}
@@ -70,7 +73,10 @@ export default function Leaderboard(props) {
                 <Col>
                   <span
                     style={{
-                      color: "#cc71c3",
+                      textShadow: "0px 0px 10px #cc71c3",
+                      fontSize: "1.0em",
+                      fontWeight: "bold",
+                      color: "white",
                     }}
                   >
                     <b>Account:</b>
@@ -90,7 +96,10 @@ export default function Leaderboard(props) {
                     {" "}
                     <span
                       style={{
-                        color: "#cc71c3",
+                        textShadow: "0px 0px 10px #cc71c3",
+                        fontSize: "1.0em",
+                        fontWeight: "bold",
+                        color: "white",
                       }}
                     >
                       <b>Winnings:</b>{" "}

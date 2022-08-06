@@ -68,6 +68,7 @@
   },
   "dependencies": {
     "bn.js": "^5.2.1",
+    "react-countdown": "^2.3.2",
     "reactstrap": "^9.1.2",
     "web3": "^1.7.5"
   },

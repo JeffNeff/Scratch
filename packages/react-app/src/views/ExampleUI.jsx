@@ -2,6 +2,7 @@ import { Divider } from "antd";
 import React, { useState, useEffect } from "react";
 import { utils } from "ethers";
 import { Button, Card, CardHeader, CardText, CardTitle, Col, Row } from "reactstrap";
+import Countdown from "react-countdown";
 
 import { StakedView, Leaderboard } from "../components";
 
@@ -64,7 +65,8 @@ export default function ExampleUI({ address, tx, readContracts, writeContracts }
                     fontWeight: "bold",
                   }}
                 >
-                  A Transparent Gambling Platform
+                  {/* create a countdown for three days */}
+                  New Winner Selected Every Three Days : <Countdown date={1659743365872 + 1000 * 60 * 60 * 24 * 3} />
                 </span>
               </CardTitle>
             </CardHeader>
@@ -119,7 +121,7 @@ export default function ExampleUI({ address, tx, readContracts, writeContracts }
                             fontWeight: "bold",
                           }}
                         >
-                          ✅ <b>Decentralized gambling platform </b>designed to be a means to an end for "unfair" or
+                          ✅ <b>Decentralized raffle platform </b>designed to be a means to an end for "unfair" or
                           "shady" betting experiences.
                         </span>
                       </p>
@@ -261,7 +263,7 @@ export default function ExampleUI({ address, tx, readContracts, writeContracts }
                           }}
                         >
                           {" "}
-                          ☞ Currently, a winner is selected twice a week ( every 3.5 days )
+                          ☞ Currently, a winner is selected every three days.
                         </span>
                       </p>
 
@@ -280,6 +282,114 @@ export default function ExampleUI({ address, tx, readContracts, writeContracts }
                     </div>
                   )}
                 </div>
+
+                {/* Stats */}
+                <div
+                  style={{
+                    border: "2px solid #cc71c3",
+                    padding: "20px",
+                  }}
+                >
+                  <div
+                    style={{
+                      border: "2px solid #cc71c3",
+                      padding: "10px",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Button
+                      type="primary"
+                      onClick={() => {
+                        setshowStats(!showStats);
+                      }}
+                      style={{
+                        textShadow: "0px 0px 10px #cc71c3",
+                        fontSize: "4.0em",
+                        fontWeight: "bold",
+                        backgroundColor: "#cc71c3",
+                        WebkitBoxShadow: "0px 0px 10px black",
+                      }}
+                    >
+                      View Current Game Stats
+                    </Button>
+                  </div>
+                  {showStats && (
+                    <div style={{ padding: "20px" }}>
+                      <Col>
+                        {/* Current Pot Total */}
+                        <div style={{ border: "2px solid #cccccc", padding: "20px", background: "#5a9ded" }}>
+                          <div style={{ padding: "20px", backgroundColor: "#5a9ded" }}>
+                            <div style={{ margin: 8, backgroundColor: "#ff9c92" }}>
+                              <h3>
+                                {" "}
+                                <span
+                                  style={{
+                                    textShadow: "0px 0px 10px #cc71c3",
+                                    fontSize: "1.5em",
+                                    fontWeight: "bold",
+                                    color: "white",
+                                  }}
+                                >
+                                  Current Pot Total
+                                </span>
+                              </h3>
+                              <Card>
+                                <div
+                                  style={{ border: "2px solid #cccccc", padding: "20px", backgroundColor: "#5a9ded" }}
+                                >
+                                  <StakedView balance={totalSupply}></StakedView>
+                                </div>
+                              </Card>
+                            </div>
+                          </div>
+                        </div>
+                      </Col>
+                      <Col>
+                        {/* Lifetime Winnings */}
+                        <div style={{ border: "2px solid #cccccc", padding: "20px", background: "#5a9ded" }}>
+                          <div style={{ backgroundColor: "#ff9c92" }}>
+                            <h3>
+                              <span
+                                style={{
+                                  textShadow: "0px 0px 10px #cc71c3",
+                                  fontSize: "1.5em",
+                                  fontWeight: "bold",
+                                  color: "white",
+                                }}
+                              >
+                                Lifetime Winnings
+                              </span>
+                            </h3>
+                            <div style={{ border: "2px solid #cccccc", padding: "20px", backgroundColor: "#5a9ded" }}>
+                              <StakedView balance={utils.formatEther(lifetimeWinnings)}></StakedView>
+                            </div>
+                          </div>
+                        </div>
+                      </Col>
+                      <Col>
+                        {/* Leaderboard */}
+                        <div style={{ border: "2px solid #cccccc", padding: "20px", background: "#5a9ded" }}>
+                          <div style={{ margin: 8, backgroundColor: "#ff9c92" }}>
+                            <h3>
+                              <span
+                                style={{
+                                  textShadow: "0px 0px 10px #cc71c3",
+                                  fontSize: "1.5em",
+                                  fontWeight: "bold",
+                                  color: "white",
+                                }}
+                              >
+                                Leaderboard
+                              </span>
+                            </h3>
+                            <Leaderboard leaderBoard={leaderBoard} />
+                          </div>
+                        </div>
+                      </Col>
+                    </div>
+                  )}
+                </div>
+
                 <div
                   style={{
                     border: "2px solid #cc71c3",
@@ -383,99 +493,6 @@ export default function ExampleUI({ address, tx, readContracts, writeContracts }
           </Button>
         </div>
 
-        <Row
-          style={{
-            border: "1px solid #cccccc",
-            padding: 26,
-            width: "100%",
-            margin: "auto",
-            marginTop: 64,
-            background: "#cc71c3",
-          }}
-        >
-          {/* <h1 style={{ border: "2px solid #cccccc", padding: "20px", backgroundColor: "#ff9c92", color: "#cc71c3" }}> */}{" "}
-          <Button
-            type="primary"
-            style={{
-              textShadow: "0px 0px 10px #cc71c3",
-              fontSize: "4.0em",
-              fontWeight: "bold",
-              backgroundColor: "#cc71c3",
-              WebkitBoxShadow: "0px 0px 10px black",
-            }}
-            onClick={() => {
-              setshowStats(!showStats);
-            }}
-          >
-            Stats
-          </Button>
-          {showStats && (
-            <div style={{ border: "2px solid #cccccc", padding: "20px" }}>
-              <Col>
-                {/* Current Pot Total */}
-                <div style={{ border: "2px solid #cccccc", padding: "20px", backgroundColor: "#5a9ded" }}>
-                  <div style={{ padding: "20px", margin: 8, backgroundColor: "#5a9ded" }}>
-                    <div style={{ margin: 8, backgroundColor: "#ff9c92" }}>
-                      <h3>
-                        {" "}
-                        <span
-                          style={{
-                            color: "white",
-                          }}
-                        >
-                          Current Pot Total
-                        </span>
-                      </h3>
-                      <Card>
-                        <div style={{ border: "2px solid #cccccc", padding: "20px", backgroundColor: "#5a9ded" }}>
-                          <StakedView balance={totalSupply}></StakedView>
-                        </div>
-                      </Card>
-                    </div>
-                  </div>
-                </div>
-              </Col>
-              <Col>
-                {/* Lifetime Winnings */}
-                <div style={{ border: "2px solid #cccccc", padding: "20px", background: "#5a9ded" }}>
-                  <div style={{ margin: 8, backgroundColor: "#ff9c92" }}>
-                    <h3>
-                      {" "}
-                      <span
-                        style={{
-                          color: "white",
-                        }}
-                      >
-                        Lifetime Winnings
-                      </span>{" "}
-                    </h3>
-                    <div style={{ border: "2px solid #cccccc", padding: "20px", backgroundColor: "#5a9ded" }}>
-                      <StakedView balance={utils.formatEther(lifetimeWinnings)}></StakedView>
-                    </div>
-                  </div>
-                </div>
-              </Col>
-              <Col>
-                {/* Leaderboard */}
-                <div style={{ border: "2px solid #cccccc", padding: "20px", background: "#5a9ded" }}>
-                  <div style={{ margin: 8, backgroundColor: "#ff9c92" }}>
-                    <h3>
-                      {" "}
-                      <span
-                        style={{
-                          color: "white",
-                        }}
-                      >
-                        Leaderboard
-                      </span>
-                    </h3>
-                    <Leaderboard leaderBoard={leaderBoard} />
-                  </div>
-                </div>
-              </Col>
-            </div>
-          )}
-        </Row>
         {/* Pickwinner */}
         {/* only render this div if the logged in account is the owner */}
         {address == "0xD9B6D696B28C194fe011b0b8D3FC1ef4aD98dB36" && (
